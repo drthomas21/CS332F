@@ -25,11 +25,50 @@ class Rational(inclNum: Int = 1,inclDen: Int = 1) {
 		ret.setDenominator(den * r.getNumerator());
 		return ret;
 	};
-	def sum (f: Rational => Rational)(b: Rational): Rational = {
+	def sumA (f: Rational => Rational)(b: Rational): Rational = {
 		var a: Rational = new Rational(1,1);
+		def sumf(f: Rational => Rational)(a: Rational, b: Rational): Rational = {
+			if(a.getNumerator() == a.getDenominator()) {
+	                        a.incDenominator();
+	                        a.setNumerator(1);
+	                        return sumf(f)(a,b);
+	                } else if(a.getNumber() <= b.getNumber()) {
+	                        var fraction: Rational = new Rational(a.getNumerator(),b.getNumerator());
+	                        a.incNumerator();
+	                        var c: Rational = f(fraction);
+	                        var d: Rational = sumf(f)(a,b);
+	
+	                        return new Rational((c.getNumerator() * d.getDenominator() + d.getNumerator() * c.getDenominator()),(c.getDenominator() * d.getDenominator()));
+	                } else {
+	                        return new Rational(0,1);
+	                }
+
+		};
+
 		return sumf(f)(a,b);
 	};
-	def sumf(f: Rational => Rational)(a: Rational,b: Rational):Rational = {
+	def sumB (f: Rational => Rational)(a: Rational,b: Rational):Rational = {
+		def sumf(f: Rational => Rational)(a: Rational, b: Rational): Rational = {
+			if(a.getNumerator() == a.getDenominator()) {
+				var dNum: Double = a.getNumerator() -1;
+				var dDen: Double = a.getDenominator();
+				var before: Double  = dNum/dDen;
+                                a.incDenominator();
+				while(a.getNumber() < before) {
+					a.incNumerator();
+				}
+                                return sumf(f)(a,b);
+                        } else if(a.getNumber() <= b.getNumber()) {
+                                var fraction: Rational = new Rational(a.getNumerator(),b.getNumerator());
+                                a.incNumerator();
+                                var c: Rational = f(fraction);
+                                var d: Rational = sumf(f)(a,b);
+
+                                return new Rational((c.getNumerator() * d.getDenominator() + d.getNumerator() * c.getDenominator()),(c.getDenominator() * d.getDenominator()));
+                        } else {
+                                return new Rational(0,1);
+                        }
+		};
 		if(a.getNumerator() == a.getDenominator()) {
 			a.incDenominator();
 			a.setNumerator(1);
@@ -44,5 +83,8 @@ class Rational(inclNum: Int = 1,inclDen: Int = 1) {
 		} else {
 			return new Rational(0,1);
 		}
+
+		return sumf(f)(a,b);
 	};
 }
+
