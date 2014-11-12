@@ -11,9 +11,12 @@ abstract class Nat {
 class Succ(n: Nat) extends Nat {
 	var number: Int = n.num + 1;
 	def num: Int = number;
-	override def toString: String = num + "";
+	override def toString: String = "Succ("+n.toString()+")";
 	def -(that: Nat): Nat = {
 		var value: Int = num - that.num;
+		if(value < 0) {
+			throw new IllegalStateException("Non Natural Number");
+		}
 		var Instance:Succ = new Succ(this);
 		Instance.setNumber(value);
 		return Instance;
@@ -32,6 +35,7 @@ class Succ(n: Nat) extends Nat {
 			Instance.setNumber(value);
 			return Instance;
 		} 
+		throw new IllegalStateException("Non Natural Number");
 		return null;
 	}
 	def isZero: Boolean = num == 0;
@@ -47,6 +51,7 @@ object Zero extends Nat {
                         Instance.setNumber(value);
                         return Instance;
                 }
+		throw new IllegalStateException("Non Natural Number");
                 return null;
         }
         def successor: Nat = new Succ(this);
@@ -62,6 +67,6 @@ object Zero extends Nat {
                 Instance.setNumber(value);
                 return Instance;
         }
-        override def toString: String = num + "";
+        override def toString: String = "Zero";
         def num:Int = 0;
 }
