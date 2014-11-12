@@ -9,31 +9,33 @@ abstract class Nat {
 }
 
 class Succ(n: Nat) extends Nat {
-	def num: Int = n.num + 1;
-	def toString: String = num + "";
+	var number: Int = n.num + 1;
+	def num: Int = number;
+	override def toString: String = num + "";
 	def -(that: Nat): Nat = {
 		var value: Int = num - that.num;
-		var Instance:Nat = new Succ(this);
-		Instance.num = value;
+		var Instance:Succ = new Succ(this);
+		Instance.setNumber(value);
 		return Instance;
 	}
 	def +(that: Nat): Nat = {
 		var value:Int = num + that.num;
-		var Instance:Nat = new Succ(this);
-		Instance.num = value;
+		var Instance:Succ = new Succ(this);
+		Instance.setNumber(value);
 		return Instance;
 	}
 	def successor:Nat = return new Succ(this);
 	def predecessor: Nat = {
-		if(!n.isZero) {
-			var value:Int = n.num;
-			var Instance:Nat = new Succ(this);
-			Instance.num = value;
+		if(!isZero) {
+			var value:Int = num - 1;
+			var Instance:Succ = new Succ(this);
+			Instance.setNumber(value);
 			return Instance;
 		} 
 		return null;
 	}
-	def isZero: Boolean = num == 0
+	def isZero: Boolean = num == 0;
+	def setNumber(value: Int) = {number = value};
 }
 
 object Zero extends Nat {
@@ -41,8 +43,8 @@ object Zero extends Nat {
         def predecessor: Nat = {
                 if(!isZero) {
                         var value: Int = num;
-                        var Instance:Nat = new Succ(this);
-                        Instance.num = value;
+                        var Instance:Succ = new Succ(this);
+                        Instance.setNumber(value);
                         return Instance;
                 }
                 return null;
@@ -50,16 +52,16 @@ object Zero extends Nat {
         def successor: Nat = new Succ(this);
         def +(that: Nat): Nat = {
                 var value: Int = num + that.num;
-                var Instance:Nat = new Succ(this);
-                Instance.num = value;
+                var Instance:Succ = new Succ(this);
+                Instance.setNumber(value);
                 return Instance;
         }
         def -(that: Nat): Nat = {
                 var value: Int = num-that.num;
-                var Instance:Nat = new Succ(this);
-                Instance.num = value;
+                var Instance:Succ = new Succ(this);
+                Instance.setNumber(value);
                 return Instance;
         }
-        def toString: String = num + "";
+        override def toString: String = num + "";
         def num:Int = 0;
 }
