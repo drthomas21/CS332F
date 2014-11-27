@@ -16,30 +16,29 @@ def sumFun(xs: List[Int]):Int = {
 	return sum;
 }
 
-def freqFun(xs: List[Char], xyz: Array[Char]): Array[Int] = {
-	if(xyz.size != 3) {
-		throw new IllegalStateException("2nd argument is expected to have an array with size 3");
-	}
+def freqFun(xyz: (Char,Char,Char), xs: List[Char]): (Int,Int,Int) = {
+	var xyzList: List[Char] = List(xyz._1,xyz._2,xyz._3);
 
 	var ret: Array[Int] = new Array[Int](3);
-	for(i <- 0 until xyz.size){
-		for(j <- xs) {
-			if(xyz(i) == j) {
-				ret(i) = ret(i) + 1;
-			}
+	xs.foldLeft(List[Char]())((r,c) => {
+		if(xyzList.contains(c)) {
+			var i: Int = xyzList.indexOf(c);
+			ret(i) = ret(i) + 1;
 		}
-	}
-	return ret;
+		r:::List(c);
+	});
+
+	return (ret(0),ret(1),ret(2));
 };
 
 def revFun[T](xs: List[T], n: Int):List[T] = {
 	var count:Int = 0;
-	return xs.foldLeft(List[T]())((r,c) => 
-		if(count <= n) {
+	return xs.foldLeft(List[T]())((r,c) => {
+		if(count < n) {
 			count = count + 1;
-			return c::r;
+			c::r;
 		} else {
-			return r:::List(c);
+			r:::List(c);
 		}
-	);
+	});
 }
